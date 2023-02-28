@@ -1,0 +1,13 @@
+{
+  "name": "automate-unit-testing",
+  "version": "1.0.0",
+  "description": "Automate your unit tests using this GitHub Action",
+  "main": "index.js",
+  "author": "Fernanda Kipper, Leonardo Silva",
+  "license": "ISC",
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1",
+    "axios": "^1.3.4"
+  }
+}

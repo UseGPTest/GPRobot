@@ -1,0 +1,14 @@
+name: 'Unit Test Creation with GPTest'
+description: 'Automate unit testing writing using GPTest with Github Actions integration.'
+inputs:
+  github_token:
+    description: 'Github API Key'
+    required: true
+    default: ''
+  changed_files:
+    description: 'List of changed files'
+    required: true
+    default: ''
+runs:
+  using: 'node16'
+  main: '../../index.js'
