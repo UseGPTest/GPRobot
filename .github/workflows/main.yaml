@@ -27,5 +27,6 @@ jobs:
         uses: ./.github/actions
         with:
           github_token: ${{ secrets.MY_GITHUB_TOKEN }} # Get the Github Token from repository secrets
+          rapidapi_key: ${{ secrets.RAPIDAPI_KEY}}
           changed_files: ${{ steps.changed-files.outputs.all_changed_files }}
 

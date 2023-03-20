@@ -9,6 +9,10 @@ inputs:
     description: 'List of changed files'
     required: true
     default: ''
+  rapidapi_key:
+    description: RapidAPI Key
+    required: true
+    default: ''
 runs:
   using: 'node16'
   main: '../../index.js'
