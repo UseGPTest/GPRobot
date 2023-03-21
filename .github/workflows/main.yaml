@@ -6,6 +6,9 @@ jobs:
   create-unit-test:
     runs-on: ubuntu-latest
     name: Create unit test
+    defaults:
+      run:
+        working-directory: '/'
     steps:
       - uses: actions/checkout@v3
 
