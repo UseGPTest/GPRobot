@@ -22,9 +22,11 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
+      - uses: actions/checkout@v3
         
       - name: Generate unit test 
-        uses: ./action
+        uses: ./action.yaml
         with:
           github_token: ${{ secrets.MY_GITHUB_TOKEN }} # Get the Github Token from repository secrets
           rapidapi_key: ${{ secrets.RAPIDAPI_KEY}}
