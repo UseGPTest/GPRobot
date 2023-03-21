@@ -24,7 +24,7 @@ jobs:
         run: npm install
         
       - name: Generate unit test 
-        uses: ./action.yaml
+        uses: /action.yaml
         with:
           github_token: ${{ secrets.MY_GITHUB_TOKEN }} # Get the Github Token from repository secrets
           rapidapi_key: ${{ secrets.RAPIDAPI_KEY}}
