@@ -17,6 +17,7 @@ jobs:
       uses: tj-actions/changed-files@v35
       with:
         separator: ','
+        since_last_remote_commit: true
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
