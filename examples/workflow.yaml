@@ -1,0 +1,34 @@
+# example worjflow explained step by step how to use this action
+
+name: "Create Unit Test"
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  create-unit-test:
+    runs-on: ubuntu-latest
+    name: Create unit test
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v35
+      with:
+        separator: ','
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Generate unit test
+      uses: usegptest/gprobot@v0.5
+      with:
+        github_token: ${{ secrets.MY_GITHUB_TOKEN }} # Get the Github Token from repository secrets
+        rapidapi_key: ${{ secrets.RAPIDAPI_KEY}} # Your RapidAPI Key from https://rapidapi.com/ldsds94/api/gptest1/pricing
+        changed_files: ${{ steps.changed-files.outputs.all_changed_files }}
