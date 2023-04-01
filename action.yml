@@ -13,6 +13,10 @@ inputs:
     description: RapidAPI Key
     required: true
     default: ''
+  final_diff:
+    description: Final diff
+    required: true
+    default: ''
 runs:
   using: 'node16'
   main: './index.js'

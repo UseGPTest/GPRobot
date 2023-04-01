@@ -17,8 +17,10 @@ jobs:
 
       - name: Get final diff
         id: get-final-diff
-        run:|
-          final-diff=$(git diff ${{ github.event.after }}..${{ github.event.before }} >> $GITHUB_OUTPUT
+        run: |
+          final-diff=$(git diff ${{ github.event.pull_request.head.sha }}..${{ github.event.pull_request.base.sha }})
+          echo "::set-output name=final-diff::$final-diff"
+          echo "final-diff=$(git diff ${{ github.event.pull_request.head.sha }}..${{ github.event.pull_request.base.sha }})" >> $GITHUB_OUTPUT
 
       - name: Setup Node.js
         uses: actions/setup-node@v3

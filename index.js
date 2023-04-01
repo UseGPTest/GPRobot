@@ -27,6 +27,9 @@ function main() {
   console.log('final-diff: ' + finalDiff);
   const modifiedFilesPaths = core.getInput('changed_files').split(',');
   try {
+    if (finalDiff == '' || modifiedFilesPaths == '') {
+      throw new Error('No changes detected');
+    }
     for (let i = 0; i < modifiedFilesPaths.length; i++) {
       const filePath = modifiedFilesPaths[i];
       const fileExtension = filePath.split('.').slice(-1)[0];
