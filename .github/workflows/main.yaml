@@ -3,9 +3,12 @@ on:
     types: [opened]
 
 jobs:
-  create-unit-test:
+  acquire-necessary-info:
     runs-on: ubuntu-latest
-    name: Create unit test
+    outputs:
+      all_changed_files: ${{ steps.changed-files.outputs.all_changed_files }}
+      final_diff: ${{ steps.get-final-diff.outputs.final-diff }}
+    name: Acquire necessary info
     steps:
       - uses: actions/checkout@v3
 
@@ -22,6 +25,13 @@ jobs:
           echo "::set-output name=final-diff::$final-diff"
           echo "final-diff=$(git diff ${{ github.event.pull_request.head.sha }}..${{ github.event.pull_request.base.sha }})" >> $GITHUB_OUTPUT
 
+  create-unit-test:
+    runs-on: ubuntu-latest
+    needs: acquire-necessary-info
+    name: Create unit test
+    steps:
+      - uses: actions/checkout@v3
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -35,6 +45,6 @@ jobs:
         with:
           github_token: ${{ secrets.MY_GITHUB_TOKEN }} # Get the Github Token from repository secrets
           rapidapi_key: ${{ secrets.RAPIDAPI_KEY}} # Your RapidAPI Key from https://rapidapi.com/ldsds94/api/gptest1/pricing
-          changed_files: ${{ steps.changed-files.outputs.all_changed_files }}
-          final_diff: ${{ steps.get-final-diff.outputs.final-diff }}
+          changed_files: ${{ needs.acquire-necessary-info.outputs.all_changed_files }}
+          final_diff: ${{ needs.acquire-necessary-info.outputs.final-diff }}
 
