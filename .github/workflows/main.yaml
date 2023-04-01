@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       all_changed_files: ${{ steps.changed-files.outputs.all_changed_files }}
-      final_diff: ${{ steps.get-final-diff.outputs.final-diff }}
+      final_diff: ${{ steps.get-final-diff.outputs.final_diff }}
     name: Acquire necessary info
     steps:
       - uses: actions/checkout@v3
@@ -21,9 +21,7 @@ jobs:
       - name: Get final diff
         id: get-final-diff
         run: |
-          final-diff=$(git diff ${{ github.event.pull_request.head.sha }}..${{ github.event.pull_request.base.sha }})
-          echo "::set-output name=final-diff::$final-diff"
-          echo "final-diff=$(git diff ${{ github.event.pull_request.head.sha }}..${{ github.event.pull_request.base.sha }})" >> $GITHUB_OUTPUT
+          echo "final_diff=$(git diff ${{ github.event.pull_request.head.sha }}..${{ github.event.pull_request.base.sha }})" >> $GITHUB_OUTPUT
 
   create-unit-test:
     runs-on: ubuntu-latest
