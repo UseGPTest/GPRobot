@@ -23,6 +23,8 @@ const createUnitTestIssue = async (unitTest, filePath, fileExtension) => {
 };
 
 function main() {
+  const finalDiff = core.getInput('final-diff');
+  console.log('final-diff: ' + finalDiff);
   const modifiedFilesPaths = core.getInput('changed_files').split(',');
   try {
     for (let i = 0; i < modifiedFilesPaths.length; i++) {
