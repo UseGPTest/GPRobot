@@ -25,7 +25,7 @@ jobs:
           finalDiff="${finalDiff//'%'/'%25'}"
           finalDiff="${finalDiff//$'\n'/'%0A'}"
           finalDiff="${finalDiff//$'\r'/'%0D'}"
-          echo "::set-output name=final_diff::$finalDiff" 
+          echo "final_diff=$finalDiff" >> $GITHUB_OUTPUT 
 
   create-unit-test:
     runs-on: ubuntu-latest
