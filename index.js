@@ -4,7 +4,6 @@ const { GetUnitTest } = require('./services/GPTestClient');
 const { UnitTestIssueBodyTemplate } = require('./utils/IssueBodyTemplate');
 
 const githubApiKey = core.getInput('github_token');
-console.log('github_token: ' + githubApiKey);
 const rapidAPIKey = core.getInput('rapidapi_key');
 const octokit = github.getOctokit(githubApiKey);
 
@@ -25,7 +24,6 @@ const createUnitTestIssue = async (unitTest, filePath, fileExtension) => {
 
 function main() {
   const finalDiff = core.getInput('final_diff');
-  console.log('final_diff: ' + finalDiff);
   const modifiedFilesPaths = core.getInput('changed_files').split(',');
   try {
     if (finalDiff == '' || modifiedFilesPaths == '') {
