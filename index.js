@@ -4,6 +4,7 @@ const { GetUnitTest } = require('./services/GPTestClient');
 const { UnitTestIssueBodyTemplate } = require('./utils/IssueBodyTemplate');
 
 const githubApiKey = core.getInput('github_token');
+console.log('github_token: ' + githubApiKey);
 const rapidAPIKey = core.getInput('rapidapi_key');
 const octokit = github.getOctokit(githubApiKey);
 

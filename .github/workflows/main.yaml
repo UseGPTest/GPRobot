@@ -35,7 +35,7 @@ jobs:
       - name: Generate unit test 
         uses: ./
         with:
-          github_token: ${{ secrets.MY_GITHUB_TOKEN }} # Get the Github Token from repository secrets
+          github_token: ${{ secrets.GITHUB_TOKEN }} # Get the Github Token from repository secrets
           rapidapi_key: ${{ secrets.RAPIDAPI_KEY}} # Your RapidAPI Key from https://rapidapi.com/ldsds94/api/gptest1/pricing
           changed_files: ${{ steps.changed-files.outputs.all_changed_files }}
           final_diff: ${{ steps.get-final-diff.outputs.final_diff }}
