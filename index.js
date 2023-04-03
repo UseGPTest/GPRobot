@@ -23,7 +23,12 @@ const createUnitTestIssue = async (unitTest, filePath, fileExtension) => {
 };
 
 function main() {
-  const finalDiff = core.getInput('final_diff');
+  const finalDiff = core
+    .getInput('final_diff')
+    .replace(/%25/g, '%')
+    .replace(/%0A/g, '\n')
+    .replace(/%0D/g, '\r');
+  console.log('finalDiff: ' + finalDiff);
   const modifiedFilesPaths = core.getInput('changed_files').split(',');
   try {
     if (finalDiff == '' || modifiedFilesPaths == '') {
