@@ -2,6 +2,7 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const { GetUnitTest } = require('./services/GPTestClient');
 const { UnitTestIssueBodyTemplate } = require('./utils/IssueBodyTemplate');
+const { getModifiedFunctions } = require('./utils/DiffParser');
 
 const githubApiKey = core.getInput('github_token');
 const rapidAPIKey = core.getInput('rapidapi_key');
@@ -34,6 +35,10 @@ function main() {
     if (finalDiff == '' || modifiedFilesPaths == '') {
       throw new Error('No changes detected');
     }
+    const modifiedFiles = finalDiff.split('diff --git'); // teste usando o diff do git
+    console.log('modifiedFiles: ' + modifiedFiles);
+    const modifiedFunctions = getModifiedFunctions(finalDiff);
+    console.log('modifiedFunctions: ' + modifiedFunctions);
     for (let i = 0; i < modifiedFilesPaths.length; i++) {
       const filePath = modifiedFilesPaths[i];
       const fileExtension = filePath.split('.').slice(-1)[0];
