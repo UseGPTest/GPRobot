@@ -8,7 +8,7 @@ function getModifiedFunctions(finalDiff) {
     if (newFilePath == undefined) {
       continue;
     }
-    console.log('DiffParser: newFilePath: ' + newFilePath);
+    console.log('DiffParser: newFilePath: ' + newFilePath.split('\n')[0]);
     const fileName = newFilePath.split('/').slice(-1)[0];
     console.log('DiffParser: fileName: ' + fileName);
     const fileExtension = fileName.split('.').slice(-1)[0];
