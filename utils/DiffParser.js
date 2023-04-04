@@ -4,7 +4,7 @@ function getModifiedFunctions(finalDiff) {
   const modifiedFiles = finalDiff.split('diff --git');
   for (let i = 0; i < modifiedFiles.length; i++) {
     // Gets the file path
-    const newFilePath = modifiedFiles[i].split(' b/')[1].split('\n')[0];
+    const newFilePath = modifiedFiles[i].split(' b/')[1]?.split('\n')[0];
     if (newFilePath == undefined) {
       continue;
     }
