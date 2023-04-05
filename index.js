@@ -1,77 +1,44 @@
-const core = require('@actions/core');
-const github = require('@actions/github');
-const { GetUnitTest } = require('./services/GPTestClient');
-const { UnitTestIssueBodyTemplate } = require('./utils/IssueBodyTemplate');
+const { core } = require('./utils/Constants');
+// const { getUnitTest } = require('./services/GPTestClient');
 const { getModifiedFunctions } = require('./utils/DiffParser');
 
-const githubApiKey = core.getInput('github_token');
-const rapidAPIKey = core.getInput('rapidapi_key');
-const octokit = github.getOctokit(githubApiKey);
+// const availableLanguages = ['js', 'jsx', 'ts', 'tsx', 'py'];
 
-const owner = github.context.repo.owner;
-const repo = github.context.repo.repo;
-
-const availableLanguages = ['js', 'jsx', 'ts', 'tsx', 'py'];
-
-const createUnitTestIssue = async (unitTest, filePath, fileExtension) => {
-  const { data: issue } = await octokit.rest.issues.create({
-    owner,
-    repo,
-    title: `[GPTest] Unit test for ${filePath}`,
-    body: UnitTestIssueBodyTemplate(unitTest, filePath, fileExtension),
-  });
-  return issue;
-};
-
-function main() {
+async function main() {
+  // Gets final diff
   const finalDiff = core
     .getInput('final_diff')
     .replace(/%25/g, '%')
     .replace(/%0A/g, '\n')
     .replace(/%0D/g, '\r');
-  console.log('finalDiff: ' + finalDiff);
+
+  // Gets modified files paths old way
   const modifiedFilesPaths = core.getInput('changed_files').split(',');
+
   try {
-    if (finalDiff == '' || modifiedFilesPaths == '') {
+    if (finalDiff == '' || modifiedFilesPaths.length == 0) {
       throw new Error('No changes detected');
     }
-    const modifiedFiles = finalDiff.split('diff --git'); // teste usando o diff do git
-    console.log('modifiedFiles: ' + modifiedFiles);
+
     const modifiedFunctions = getModifiedFunctions(finalDiff);
     console.log('modifiedFunctions: ' + modifiedFunctions);
-    for (let i = 0; i < modifiedFilesPaths.length; i++) {
-      const filePath = modifiedFilesPaths[i];
-      const fileExtension = filePath.split('.').slice(-1)[0];
-      if (!availableLanguages.includes(fileExtension)) {
-        continue;
-      }
-      octokit.rest.repos
-        .getContent({
-          owner,
-          repo,
-          path: filePath,
-          ref: github.context.ref,
-        })
-        .then((response) => {
-          const fileContent = Buffer.from(
-            response.data.content ?? '',
-            'base64'
-          ).toString();
-          GetUnitTest(fileContent, rapidAPIKey)
-            .then((response) => {
-              createUnitTestIssue(
-                response.data.unit_test,
-                filePath,
-                fileExtension
-              );
-            })
-            .catch((error) => {
-              console.log('Error: ' + error);
-              throw new Error(error);
-            });
-        });
-    }
+
+    // for (let i = 0; i < modifiedFilesPaths.length; i++) {
+    //   const filePath = modifiedFilesPaths[i];
+    //   const fileExtension = filePath.split('.').slice(-1)[0];
+    //   if (!availableLanguages.includes(fileExtension)) {
+    //     continue;
+    //   }
+    //   const fileContent = getFileContent(filePath);
+    //   try {
+    //     const response = await getUnitTest(fileContent);
+    //     createUnitTestIssue(response.data.unit_test, filePath, fileExtension);
+    //   } catch (error) {
+    //     console.log('Error: ' + error);
+    //   }
+    // }
   } catch (error) {
+    console.log('index.main: Error: ' + error);
     core.setFailed(error.message);
   }
 }

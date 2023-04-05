@@ -1,7 +1,8 @@
 const { gatewayURL, gatewayProxyHost } = require('../config');
+const { rapidAPIKey } = require('../utils/Constants');
 const axios = require('axios');
 
-function GetUnitTest(func, rapidAPIKey) {
+function getUnitTest(func) {
   return axios
     .post(
       `${gatewayURL}/api/v0/unit-test-generation`,
@@ -21,4 +22,4 @@ function GetUnitTest(func, rapidAPIKey) {
     });
 }
 
-module.exports = { GetUnitTest };
+module.exports = { getUnitTest };
