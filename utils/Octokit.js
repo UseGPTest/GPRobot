@@ -1,5 +1,5 @@
 const { octokit, owner, repo, github } = require('./Constants');
-const { UnitTestIssueBodyTemplate } = require('./utils/IssueBodyTemplate');
+const { UnitTestIssueBodyTemplate } = require('./IssueBodyTemplate');
 
 async function getFileContent(filePath) {
   try {
