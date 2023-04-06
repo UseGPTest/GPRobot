@@ -1,6 +1,7 @@
 const acorn = require('acorn');
 const parseDiff = require('parse-diff');
 const { getFileContent } = require('./Octokit');
+const { DIFF_NULL_PATH } = require('./Constants');
 
 function getModifiedLinesFromDiff(diff) {
   // modifiedLines: filePath -> [{startLine, finalLine}]
@@ -22,14 +23,14 @@ function getModifiedLinesFromDiff(diff) {
 }
 
 async function getModifiedFunctions(diff) {
-  const modifiedFunctions = {}; // map: filePath -> [functionName]
-
+  const modifiedFunctions = []; // map: filePath -> [functionName]
   const modifiedLines = getModifiedLinesFromDiff(diff);
-  console.log('DiffParser: modifiedLines[0]: ' + modifiedLines[0]);
 
   for (const filePath in modifiedLines) {
+    if (filePath == DIFF_NULL_PATH) {
+      continue;
+    }
     const modifiedLinesInFile = modifiedLines[filePath];
-
     const file = await getFileContent(filePath);
     const fileParsed = acorn.parse(file, { ecmaVersion: 2020 });
     console.log('DiffParser: fileParsed: ' + fileParsed);
@@ -49,9 +50,8 @@ async function getModifiedFunctions(diff) {
         }
       }
     }
-
-    return modifiedFunctions;
   }
+  return modifiedFunctions;
 }
 
 module.exports = { getModifiedFunctions };

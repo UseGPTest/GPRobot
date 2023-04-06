@@ -3,11 +3,6 @@ const { UnitTestIssueBodyTemplate } = require('./IssueBodyTemplate');
 
 async function getFileContent(filePath) {
   try {
-    console.log('Octokit: getFileContent filePath: ' + filePath);
-    console.log(
-      'Octokit: getFileContent github.context.ref: ' + github.context.ref
-    );
-    console.log('Octokit: getFileContent repo: ' + repo);
     const content = (
       await octokit.rest.repos.getContent({
         owner,
