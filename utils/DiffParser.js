@@ -25,6 +25,7 @@ async function getModifiedFunctions(diff) {
   const modifiedFunctions = {}; // map: filePath -> [functionName]
 
   const modifiedLines = getModifiedLinesFromDiff(diff);
+  console.log('DiffParser: modifiedLines[0]: ' + modifiedLines[0]);
 
   for (const filePath in modifiedLines) {
     const modifiedLinesInFile = modifiedLines[filePath];

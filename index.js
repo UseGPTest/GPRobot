@@ -20,7 +20,7 @@ async function main() {
       throw new Error('No changes detected');
     }
 
-    const modifiedFunctions = getModifiedFunctions(finalDiff);
+    const modifiedFunctions = await getModifiedFunctions(finalDiff);
     console.log('modifiedFunctions: ' + modifiedFunctions);
 
     // for (let i = 0; i < modifiedFilesPaths.length; i++) {
@@ -42,4 +42,5 @@ async function main() {
     core.setFailed(error.message);
   }
 }
+
 main();
