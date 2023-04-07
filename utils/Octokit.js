@@ -14,7 +14,6 @@ async function getFileContent(filePath) {
       ).data.content ?? '',
       'base64'
     ).toString();
-    console.log('Octokit.getFileContent: content=' + content);
     return content;
   } catch (error) {
     console.log('Error: ' + error);

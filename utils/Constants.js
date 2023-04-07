@@ -8,6 +8,7 @@ const repo = github.context.repo.repo;
 const owner = github.context.repo.owner;
 
 const DIFF_NULL_PATH = '/dev/null';
+const availableLanguages = ['js', 'jsx', 'ts', 'tsx'];
 
 module.exports = {
   core,
@@ -17,4 +18,5 @@ module.exports = {
   repo,
   owner,
   DIFF_NULL_PATH,
+  availableLanguages,
 };
