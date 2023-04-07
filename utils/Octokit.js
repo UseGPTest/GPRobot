@@ -3,15 +3,19 @@ const { UnitTestIssueBodyTemplate } = require('./IssueBodyTemplate');
 
 async function getFileContent(filePath) {
   try {
-    const content = (
-      await octokit.rest.repos.getContent({
-        owner,
-        repo,
-        path: filePath,
-        ref: github.context.ref,
-      })
-    ).data.content;
-    return Buffer.from(content ?? '', 'base64').toString();
+    const content = Buffer.from(
+      (
+        await octokit.rest.repos.getContent({
+          owner,
+          repo,
+          path: filePath,
+          ref: github.context.ref,
+        })
+      ).data.content ?? '',
+      'base64'
+    ).toString();
+    console.log('Octokit.getFileContent: content=' + content);
+    return content;
   } catch (error) {
     console.log('Error: ' + error);
     throw new Error(error);

@@ -27,13 +27,15 @@ async function getModifiedFunctions(diff) {
   const modifiedLines = getModifiedLinesFromDiff(diff);
 
   for (const filePath in modifiedLines) {
+    console.log('DiffParser.getModifiedFunctions: filePath=' + filePath);
     if (filePath == DIFF_NULL_PATH) {
       continue;
     }
     const modifiedLinesInFile = modifiedLines[filePath];
     const file = await getFileContent(filePath);
+    console.log('DiffParser.getModifiedFunctions: file=' + file);
     const fileParsed = acorn.parse(file, { ecmaVersion: 2020 });
-    console.log('DiffParser: fileParsed: ' + fileParsed);
+    console.log('DiffParser.getModifiedFunctions: fileParsed=' + fileParsed);
     for (let i = 0; i < fileParsed.body.length; i++) {
       const node = fileParsed.body[i];
       if (node.type == 'FunctionDeclaration') {

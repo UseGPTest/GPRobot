@@ -34,11 +34,11 @@ async function main() {
     //     const response = await getUnitTest(fileContent);
     //     createUnitTestIssue(response.data.unit_test, filePath, fileExtension);
     //   } catch (error) {
-    //     console.log('Error: ' + error);
+    //     console.log('createUnitTestIssue ERROR: ' + error);
     //   }
     // }
   } catch (error) {
-    console.log('index.main: Error: ' + error);
+    console.log('index.main: ERROR: ' + error);
     core.setFailed(error.message);
   }
 }
