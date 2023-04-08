@@ -31,26 +31,29 @@ async function getModifiedFunctions(diff) {
   const modifiedLines = getModifiedLinesFromDiff(diff);
 
   for (const filePath in modifiedLines) {
-    console.log(`getModifiedFunctions: filePath=${filePath}`);
     const modifiedLinesInFile = modifiedLines[filePath];
     const file = await getFileContent(filePath);
-    const fileParsed = acorn.parse(file, { ecmaVersion: 2020 });
+    const fileParsed = acorn.parse(file, {
+      ecmaVersion: 2020,
+      locations: true,
+    });
     for (let i = 0; i < fileParsed.body.length; i++) {
       const node = fileParsed.body[i];
       if (node.type == 'FunctionDeclaration') {
-        console.log(`found function declaration ${node.id.name}`);
         for (const { startLine, endLine } of modifiedLinesInFile) {
-          console.log(`startLine=${startLine} endLine=${endLine}`);
           for (let line = startLine; line <= endLine; line++) {
-            console.log(
-              `line=${line}; node.start=${node.start}; node.end=${node.end}`
-            );
-            if (line >= node.start && line <= node.end) {
+            if (line >= node.loc.start.line && line <= node.loc.end.line) {
               if (!modifiedFunctions[filePath]) {
                 modifiedFunctions[filePath] = [];
               }
-              modifiedFunctions[filePath].push(node.id.name);
-              console.log(`found function ${node.id.name} in ${filePath}`);
+              const func = file.slice(node.start, node.end);
+              if (
+                !modifiedFunctions[filePath].find(
+                  (funcObj) => funcObj.name == node.id.name
+                )
+              ) {
+                modifiedFunctions[filePath].push({ name: node.id.name, func });
+              }
             }
           }
         }

@@ -21,11 +21,13 @@ async function main() {
     }
 
     const modifiedFunctions = await getModifiedFunctions(finalDiff);
-    console.log('index.main: modifiedFunctions ended' + modifiedFunctions);
-    for (const filePath of modifiedFunctions) {
-      console.log(
-        `index.main: filepath=${filePath} modifiedFunctions=${modifiedFunctions[filePath]}`
-      );
+
+    for (const filePath in modifiedFunctions) {
+      console.log('filePath: ' + filePath);
+      for (const funcObj of modifiedFunctions[filePath]) {
+        console.log('name: ' + funcObj.name);
+        console.log('func: ' + funcObj.func);
+      }
     }
 
     // for (let i = 0; i < modifiedFilesPaths.length; i++) {
