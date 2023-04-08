@@ -39,17 +39,19 @@ async function getModifiedFunctions(diff) {
       const node = fileParsed.body[i];
       if (node.type == 'FunctionDeclaration') {
         console.log(`found function declaration ${node.id.name}`);
-        for (const { startLine, finalLine } of modifiedLinesInFile) {
-          console.log(`startLine=${startLine} finalLine=${finalLine}`);
-          if (
-            (node.start >= startLine && node.start <= finalLine) ||
-            (node.end >= startLine && node.end <= finalLine)
-          ) {
-            if (!modifiedFunctions[filePath]) {
-              modifiedFunctions[filePath] = [];
+        for (const { startLine, endLine } of modifiedLinesInFile) {
+          console.log(`startLine=${startLine} endLine=${endLine}`);
+          for (let line = startLine; line <= endLine; line++) {
+            console.log(
+              `line=${line}; node.start=${node.start}; node.end=${node.end}`
+            );
+            if (line >= node.start && line <= node.end) {
+              if (!modifiedFunctions[filePath]) {
+                modifiedFunctions[filePath] = [];
+              }
+              modifiedFunctions[filePath].push(node.id.name);
+              console.log(`found function ${node.id.name} in ${filePath}`);
             }
-            modifiedFunctions[filePath].push(node.id.name);
-            console.log(`found function ${node.id.name} in ${filePath}`);
           }
         }
       }
