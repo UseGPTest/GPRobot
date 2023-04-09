@@ -1,6 +1,7 @@
 const { core } = require('./utils/Constants');
-// const { getUnitTest } = require('./services/GPTestClient');
+const { getUnitTest } = require('./services/GPTestClient');
 const { getModifiedFunctions } = require('./utils/DiffParser');
+const { createUnitTestIssue } = require('./utils/Octokit');
 
 // const availableLanguages = ['js', 'jsx', 'ts', 'tsx', 'py'];
 
@@ -23,27 +24,16 @@ async function main() {
     const modifiedFunctions = await getModifiedFunctions(finalDiff);
 
     for (const filePath in modifiedFunctions) {
-      console.log('filePath: ' + filePath);
       for (const funcObj of modifiedFunctions[filePath]) {
-        console.log('name: ' + funcObj.name);
-        console.log('func: ' + funcObj.func);
+        try {
+          const response = await getUnitTest(funcObj.func);
+          const fileExtension = filePath.slice(filePath.lastIndexOf('.') + 1);
+          createUnitTestIssue(response.data.unit_test, filePath, fileExtension);
+        } catch (error) {
+          console.log('createUnitTestIssue ERROR: ' + error);
+        }
       }
     }
-
-    // for (let i = 0; i < modifiedFilesPaths.length; i++) {
-    //   const filePath = modifiedFilesPaths[i];
-    //   const fileExtension = filePath.split('.').slice(-1)[0];
-    //   if (!availableLanguages.includes(fileExtension)) {
-    //     continue;
-    //   }
-    //   const fileContent = getFileContent(filePath);
-    //   try {
-    //     const response = await getUnitTest(fileContent);
-    //     createUnitTestIssue(response.data.unit_test, filePath, fileExtension);
-    //   } catch (error) {
-    //     console.log('createUnitTestIssue ERROR: ' + error);
-    //   }
-    // }
   } catch (error) {
     console.log('index.main: ERROR: ' + error);
     core.setFailed(error.message);
