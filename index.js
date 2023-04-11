@@ -27,8 +27,7 @@ async function main() {
       for (const funcObj of modifiedFunctions[filePath]) {
         try {
           const response = await getUnitTest(funcObj.func);
-          const fileExtension = filePath.slice(filePath.lastIndexOf('.') + 1);
-          createUnitTestIssue(response.data.unit_test, filePath, fileExtension);
+          createUnitTestIssue(response.data.unit_test, filePath);
         } catch (error) {
           console.log('createUnitTestIssue ERROR: ' + error);
         }

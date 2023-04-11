@@ -21,7 +21,8 @@ async function getFileContent(filePath) {
   }
 }
 
-async function createUnitTestIssue(unitTest, filePath, fileExtension) {
+async function createUnitTestIssue(unitTest, filePath) {
+  const fileExtension = filePath.slice(filePath.lastIndexOf('.') + 1);
   const { data: issue } = await octokit.rest.issues.create({
     owner,
     repo,
