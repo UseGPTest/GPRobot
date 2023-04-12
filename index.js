@@ -1,7 +1,7 @@
 const { core } = require('./utils/Constants');
 const { getUnitTest } = require('./services/GPTestClient');
 const { getModifiedFunctions } = require('./utils/DiffParser');
-const { createUnitTestIssue } = require('./utils/Octokit');
+const { createUnitTestIssue, getFileContent } = require('./utils/Octokit');
 
 // const availableLanguages = ['js', 'jsx', 'ts', 'tsx', 'py'];
 
@@ -26,10 +26,12 @@ async function main() {
     for (const filePath in modifiedFunctions) {
       for (const funcObj of modifiedFunctions[filePath]) {
         try {
-          const response = await getUnitTest(funcObj.func);
+          const contextCode = await getFileContent(filePath);
+          const response = await getUnitTest(funcObj.func, contextCode);
           createUnitTestIssue(response.data.unit_test, filePath);
         } catch (error) {
           console.log('createUnitTestIssue ERROR: ' + error);
+          throw new Error(error);
         }
       }
     }
