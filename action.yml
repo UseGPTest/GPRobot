@@ -19,4 +19,9 @@ inputs:
     default: ''
 runs:
   using: 'node16'
-  main: './index.js'
+    - name: Checkout Code
+      uses: actions/checkout@v3
+    - name: Install Dependencies
+      run: npm install # or use the command for your preferred package manager
+    - name: Run Unit Test Creation
+      run: node index.js
