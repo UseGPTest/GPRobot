@@ -1,26 +1,41 @@
+const http = require('http');
 const { gatewayURL, gatewayProxyHost } = require('../config');
 const { rapidAPIKey } = require('../utils/Constants');
-const axios = require('axios');
 
 function getUnitTest(func, contextCode) {
-  return axios
-    .post(
-      `${gatewayURL}/api/v0/unit-test-generation`,
-      {
-        code: func,
-        contextCode,
-      },
-      {
-        headers: {
-          'X-RapidAPI-Key': rapidAPIKey,
-          'X-RapidAPI-Host': gatewayProxyHost,
-        },
-      }
-    )
-    .catch((error) => {
-      console.log('Error: ' + error);
-      throw new Error(error);
+  const data = JSON.stringify({
+    code: func,
+    contextCode,
+  });
+
+  const options = {
+    hostname: gatewayURL,
+    path: '/api/v0/unit-test-generation',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-RapidAPI-Key': rapidAPIKey,
+      'X-RapidAPI-Host': gatewayProxyHost,
+    },
+  };
+
+  return new Promise((resolve, reject) => {
+    const req = http.request(options, (res) => {
+      let chunks = '';
+      res.on('data', (chunk) => {
+        chunks += chunk;
+      });
+      res.on('end', () => {
+        resolve(JSON.parse(chunks));
+      });
     });
+    req.on('error', (error) => {
+      console.error('Error: ' + error);
+      reject(error);
+    });
+    req.write(data);
+    req.end();
+  });
 }
 
 module.exports = { getUnitTest };
