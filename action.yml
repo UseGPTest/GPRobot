@@ -1,5 +1,8 @@
 name: 'Unit Test Creation with GPTest'
 description: 'Automate unit testing writing using GPTest with Github Actions integration.'
+branding:
+  icon: 'check-circle'
+  color: 'gray-dark'
 inputs:
   github_token:
     description: 'Github API Key'
@@ -10,18 +13,13 @@ inputs:
     required: true
     default: ''
   rapidapi_key:
-    description: RapidAPI Key
+    description: 'RapidAPI Key'
     required: true
     default: ''
   final_diff:
-    description: Final diff
+    description: 'Final diff'
     required: true
     default: ''
 runs:
   using: 'node16'
-    - name: Checkout Code
-      uses: actions/checkout@v3
-    - name: Install Dependencies
-      run: npm install # or use the command for your preferred package manager
-    - name: Run Unit Test Creation
-      run: node index.js
+  main: 'index.js'
