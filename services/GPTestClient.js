@@ -1,4 +1,4 @@
-const http = require('http');
+const https = require('https');
 const { gatewayURL, gatewayProxyHost } = require('../config');
 const { rapidAPIKey } = require('../utils/Constants');
 
@@ -20,7 +20,7 @@ function getUnitTest(func, contextCode) {
   };
 
   return new Promise((resolve, reject) => {
-    const req = http.request(options, (res) => {
+    const req = https.request(options, (res) => {
       let chunks = '';
       res.on('data', (chunk) => {
         chunks += chunk;
