@@ -26,14 +26,17 @@ function getUnitTest(func, contextCode) {
         chunks += chunk;
       });
       res.on('end', () => {
-        resolve(JSON.parse(chunks));
+        response = JSON.parse(chunks);
+        console.log(`GPTestClient resolving with response= ${response}`);
+        resolve(response);
       });
     });
     req.on('error', (error) => {
-      console.error('Error: ' + error);
+      console.log('GPTestClient Error ' + error)
       reject(error);
     });
     req.write(data);
+    console.log(`GPTestClient Sending Request. code= ${func} contextCode= ${contextCode}`);
     req.end();
   });
 }

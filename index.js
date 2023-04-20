@@ -28,15 +28,16 @@ async function main() {
         try {
           const contextCode = await getFileContent(filePath);
           const response = await getUnitTest(funcObj.func, contextCode);
+          console.log('index getUnitTest response: ' + response);
           createUnitTestIssue(response.data.unit_test, filePath);
         } catch (error) {
-          console.log('createUnitTestIssue ERROR: ' + error);
+          console.log('index createUnitTestIssue ERROR: ' + error);
           throw new Error(error);
         }
       }
     }
   } catch (error) {
-    console.log('index.main: ERROR: ' + error);
+    console.log('index.main: Error: ' + error);
     core.setFailed(error.message);
   }
 }
