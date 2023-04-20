@@ -27,7 +27,7 @@ function getUnitTest(func, contextCode) {
       });
       res.on('end', () => {
         response = JSON.parse(chunks);
-        console.log(`GPTestClient resolving with response= ${response}`);
+        console.log(`GPTestClient resolving with response= ${chunks}`);
         resolve(response);
       });
     });
