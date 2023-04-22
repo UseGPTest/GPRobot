@@ -29,7 +29,7 @@ async function main() {
           const contextCode = await getFileContent(filePath);
           const response = await getUnitTest(funcObj.func, contextCode);
           console.log('index getUnitTest response: ' + response);
-          createUnitTestIssue(response.data.unit_test, filePath);
+          createUnitTestIssue(response.unit_test, filePath);
         } catch (error) {
           console.log('index createUnitTestIssue ERROR: ' + error);
           throw new Error(error);
