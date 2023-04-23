@@ -6,6 +6,8 @@ jobs:
   create-unit-test:
     name: Create unit test
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
       - uses: actions/checkout@v3
 
