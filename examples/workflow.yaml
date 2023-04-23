@@ -6,6 +6,9 @@ jobs:
   create-unit-test:
     name: Create unit test
     runs-on: ubuntu-latest
+    permissions: # Required for issue creation
+      issues: write
+      contents: read
     steps:
       - uses: actions/checkout@v3
 
@@ -18,7 +21,7 @@ jobs:
       - name: Get final diff
         id: get-final-diff
         run: |
-          finalDiff=$(git diff ${{ github.event.pull_request.head.sha }}..${{ github.event.pull_request.base.sha }}) 
+          finalDiff=$(git diff ${{ github.event.pull_request.base.sha }}..${{ github.sha }}) 
           finalDiff="${finalDiff//'%'/'%25'}"
           finalDiff="${finalDiff//$'\n'/'%0A'}"
           finalDiff="${finalDiff//$'\r'/'%0D'}"
@@ -33,7 +36,7 @@ jobs:
         run: npm install
         
       - name: Unit Test Creation with GPTest
-        uses: UseGPTest/GPRobot@v1.5
+        uses: UseGPTest/GPRobot@v1.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }} # Get the Github Token from repository secrets
           rapidapi_key: ${{ secrets.RAPIDAPI_KEY}} # Your RapidAPI Key from https://rapidapi.com/ldsds94/api/gptest1/pricing
