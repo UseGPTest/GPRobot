@@ -6,9 +6,8 @@ jobs:
   create-unit-test:
     name: Create unit test
     runs-on: ubuntu-latest
-    permissions: # Required for issue creation
+    permissions:
       issues: write
-      contents: read
     steps:
       - uses: actions/checkout@v3
 
@@ -35,11 +34,10 @@ jobs:
       - name: Install dependencies
         run: npm install
         
-      - name: Unit Test Creation with GPTest
-        uses: UseGPTest/GPRobot@v1.0.0
+      - name: Generate unit test 
+        uses: ./
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }} # Get the Github Token from repository secrets
           rapidapi_key: ${{ secrets.RAPIDAPI_KEY}} # Your RapidAPI Key from https://rapidapi.com/ldsds94/api/gptest1/pricing
           changed_files: ${{ steps.changed-files.outputs.all_changed_files }}
           final_diff: ${{ steps.get-final-diff.outputs.final_diff }}
-
