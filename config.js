@@ -1,4 +1,4 @@
-const gatewayURL = 'gptest1.p.rapidapi.com';
-const gatewayProxyHost = 'gptest1.p.rapidapi.com';
+const gatewayURL = 'usegptest1.p.rapidapi.com';
+const gatewayProxyHost = 'usegptest1.p.rapidapi.com';
 
 module.exports = { gatewayURL, gatewayProxyHost };
