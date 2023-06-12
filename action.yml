@@ -12,8 +12,8 @@ inputs:
     description: 'List of changed files'
     required: true
     default: ''
-  rapidapi_key:
-    description: 'RapidAPI Key'
+  repository_name:
+    description: 'Repository Name'
     required: true
     default: ''
   final_diff:

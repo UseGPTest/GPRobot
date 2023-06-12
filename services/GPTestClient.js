@@ -1,6 +1,5 @@
 const https = require('https');
-const { gatewayURL, gatewayProxyHost } = require('../config');
-const { rapidAPIKey } = require('../utils/Constants');
+const { repositoryName } = require('../utils/Constants');
 
 function getUnitTest(func, contextCode) {
   const data = JSON.stringify({
@@ -9,13 +8,12 @@ function getUnitTest(func, contextCode) {
   });
 
   const options = {
-    hostname: gatewayURL,
+    hostname: 'https://gptest.onrender.com',
     path: '/api/v0/unit-test-generation',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'X-RapidAPI-Key': rapidAPIKey,
-      'X-RapidAPI-Host': gatewayProxyHost,
+      'X-Repository-Name': repositoryName,
     },
   };
 

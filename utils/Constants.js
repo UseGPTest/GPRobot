@@ -2,7 +2,7 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 
 const githubApiKey = core.getInput('github_token');
-const rapidAPIKey = core.getInput('rapidapi_key');
+const repositoryName = core.getInput('repository_name');
 const octokit = github.getOctokit(githubApiKey);
 const repo = github.context.repo.repo;
 const owner = github.context.repo.owner;
@@ -13,7 +13,7 @@ const availableLanguages = ['js', 'jsx', 'ts', 'tsx'];
 module.exports = {
   core,
   github,
-  rapidAPIKey,
+  repositoryName,
   octokit,
   repo,
   owner,
