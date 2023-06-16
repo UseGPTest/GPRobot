@@ -32,11 +32,22 @@ async function getModifiedFunctions(diff) {
 
   for (const filePath in modifiedLines) {
     const modifiedLinesInFile = modifiedLines[filePath];
+    const fileExtension = filePath.split('.').slice(-1)[0];
+
+    // only js/ts files are supported
+    if (!availableLanguages.includes(fileExtension)) continue;
+
     const file = await getFileContent(filePath);
-    const fileParsed = acorn.parse(file, {
-      ecmaVersion: 2020,
-      locations: true,
-    });
+    let fileParsed;
+    try {
+      fileParsed = acorn.parse(file, {
+        ecmaVersion: 2020,
+        locations: true,
+      });
+    } catch (error) {
+      console.log(`Could not parse file. Check the syntax of file ${filePath}. Error: ` + error)
+      continue;
+    }
     for (let i = 0; i < fileParsed.body.length; i++) {
       const node = fileParsed.body[i];
       if (node.type == 'FunctionDeclaration') {

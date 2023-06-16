@@ -3,8 +3,6 @@ const { getUnitTest } = require('./services/GPTestClient');
 const { getModifiedFunctions } = require('./utils/DiffParser');
 const { createUnitTestIssue, getFileContent } = require('./utils/Octokit');
 
-// const availableLanguages = ['js', 'jsx', 'ts', 'tsx', 'py'];
-
 async function main() {
   // Gets final diff
   const finalDiff = core
@@ -29,7 +27,7 @@ async function main() {
           const contextCode = await getFileContent(filePath);
           const response = await getUnitTest(funcObj.func, contextCode);
           console.log('index getUnitTest response: ' + response);
-          createUnitTestIssue(response.unit_test, filePath);
+          await createUnitTestIssue(response.unit_test, filePath);
         } catch (error) {
           console.log('index createUnitTestIssue ERROR: ' + error);
           throw new Error(error);
