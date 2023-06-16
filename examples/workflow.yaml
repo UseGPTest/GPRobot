@@ -38,7 +38,7 @@ jobs:
       - name: Unit Test Creation with GPTest
         uses: UseGPTest/GPRobot@v1.0.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }} # Get the Github Token from repository secrets
-          rapidapi_key: ${{ secrets.RAPIDAPI_KEY}} # Your RapidAPI Key from https://rapidapi.com/LeoUpperThrower4/api/usegptest1/pricing
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          repository_name: ${{ github.repository }}
           changed_files: ${{ steps.changed-files.outputs.all_changed_files }}
           final_diff: ${{ steps.get-final-diff.outputs.final_diff }}
