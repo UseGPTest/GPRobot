@@ -27,7 +27,7 @@ function getModifiedLinesFromDiff(diff) {
 }
 
 async function getModifiedFunctions(diff) {
-  const modifiedFunctions = []; // map: filePath -> [functionName]
+  const modifiedFunctions = []; // map: filePath -> [{ name: function name, func: function code }]
   const modifiedLines = getModifiedLinesFromDiff(diff);
 
   for (const filePath in modifiedLines) {
@@ -35,6 +35,7 @@ async function getModifiedFunctions(diff) {
     const fileExtension = filePath.split('.').slice(-1)[0];
 
     // only js/ts files are supported
+    console.log(`getModifiedFunctions: filePath= ${filePath}, fileExtension= ${fileExtension}`)
     if (!availableLanguages.includes(fileExtension)) continue;
 
     const file = await getFileContent(filePath);
@@ -63,6 +64,7 @@ async function getModifiedFunctions(diff) {
                   (funcObj) => funcObj.name == node.id.name
                 )
               ) {
+                console.log(`found modified function. getModifiedFunctions: filePath= ${filePath}, function= ${node.id.name}`)
                 modifiedFunctions[filePath].push({ name: node.id.name, func });
               }
             }
@@ -71,6 +73,7 @@ async function getModifiedFunctions(diff) {
       }
     }
   }
+  console.log(`getModifiedFunctions found a total of ${modifiedFunctions.length} functions: modifiedFunctions= ${JSON.stringify(modifiedFunctions)}`)
   return modifiedFunctions;
 }
 

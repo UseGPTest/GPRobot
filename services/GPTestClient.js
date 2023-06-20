@@ -2,14 +2,16 @@ const { repositoryName } = require('../utils/Constants');
 const { api } = require('./api');
 
 async function getUnitTest(func, contextCode) {
-  const data = JSON.stringify({
+  const data = {
     code: func,
     contextCode,
-  });
+  };
 
   try {
+    console.log(`GPTestClient sending request with data= ${data}\nand repositoryName= ${repositoryName}`);
     const response = await api.post('/unit-test-generation', {
-      data: data,
+      data
+    }, {
       headers: {
         'Content-Type': 'application/json',
         'X-Repository-Name': repositoryName,
