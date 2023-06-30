@@ -24,9 +24,8 @@ async function main() {
     for (const filePath in modifiedFunctions) {
       for (const funcObj of modifiedFunctions[filePath]) {
         try {
-          const contextCode = await getFileContent(filePath);
-          console.log(`func: ${funcObj.func}\nfuncObj for request: ${JSON.stringify(funcObj)}\ncontext code for request: ${contextCode}`)
-          const response = await getUnitTest(funcObj.func, contextCode);
+          console.log(`func: ${funcObj.func}\nfuncObj for request: ${JSON.stringify(funcObj)}\ncontext code for request: ${funcObj.contextCode}`)
+          const response = await getUnitTest(funcObj.func, funcObj.contextCode);
           console.log('index getUnitTest response: ' + response);
           await createUnitTestIssue(response.unit_test, filePath);
         } catch (error) {
